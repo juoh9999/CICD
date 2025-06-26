@@ -1,0 +1,32 @@
+name: Deploy Nextcloud to EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.9.0
+      with:
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+
+    - name: Deploy to EC2 via SSH
+      env:
+        EC2_HOST: ${{ secrets.EC2_HOST }}
+        EC2_USER: ec2-user
+      run: |
+        ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+          cd ~/nextcloud-project
+          git pull origin main
+          docker compose down
+          docker compose up -d --build
+        EOF
+

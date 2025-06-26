@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  nextcloud:
+    image: nextcloud
+    ports:
+      - "80:80"
+    volumes:
+      - nextcloud_data:/var/www/html
+      - ./config:/var/www/html/config
+    environment:
+      - MYSQL_HOST=<RDS_ENDPOINT>
+      - MYSQL_DATABASE=<DB_NAME>
+      - MYSQL_USER=<DB_USER>
+      - MYSQL_PASSWORD=<DB_PASSWORD>
+    restart: always
+
+volumes:
+  nextcloud_data:
+
