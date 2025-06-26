@@ -1,24 +1,25 @@
 <?php
 $CONFIG = array (
   'dbtype' => 'mysql',
-  'dbname' => '<DB_NAME>',
-  'dbhost' => '<RDS_ENDPOINT>',
-  'dbport' => '',
+  'dbname' => getenv('MYSQL_DATABASE'),
+  'dbhost' => getenv('MYSQL_HOST'),
+  'dbuser' => getenv('MYSQL_USER'),
+  'dbpassword' => getenv('MYSQL_PASSWORD'),
   'dbtableprefix' => 'oc_',
-  'mysql.utf8mb4' => true,
-  'dbuser' => '<DB_USER>',
-  'dbpassword' => '<DB_PASSWORD>',
   'installed' => true,
+
+  // S3 설정
   'objectstore' => array(
     'class' => 'OC\\Files\\ObjectStore\\S3',
     'arguments' => array(
       'bucket' => '<S3_BUCKET_NAME>',
       'autocreate' => true,
-      'key'    => '<AWS_ACCESS_KEY>',
-      'secret' => '<AWS_SECRET_KEY>',
+      'key'    => '<AWS_ACCESS_KEY_ID>',
+      'secret' => '<AWS_SECRET_ACCESS_KEY>',
       'region' => 'ap-northeast-2',
       'use_ssl' => true,
       'use_path_style' => true,
+      'hostname' => 's3.ap-northeast-2.amazonaws.com'
     ),
   ),
 );
